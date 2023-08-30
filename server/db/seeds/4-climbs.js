@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 export async function seed(knex) {
-  await knex('table_name').insert([
+  await knex('climbs').insert([
     {
       id: 1,
       topo_ref: 2,
@@ -19,7 +19,7 @@ export async function seed(knex) {
       sector_id: 2,
     },
     {
-      id: 1,
+      id: 2,
       topo_ref: 4,
       type: 'mixed',
       name: 'Burning Sky',

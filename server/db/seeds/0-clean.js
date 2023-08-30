@@ -4,8 +4,8 @@
  */
 export async function seed(knex) {
   // Deletes ALL existing entries
-  await knex('ticklist').del()
   await knex('hitlist').del()
+  await knex('ticklist').del()
   await knex('comments').del()
   await knex('users').del()
   await knex('climbs').del()

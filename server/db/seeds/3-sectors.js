@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 export async function seed(knex) {
-  await knex('table_name').insert([
+  await knex('sectors').insert([
     {
       id: 1,
       name: 'Main Cliff Left',

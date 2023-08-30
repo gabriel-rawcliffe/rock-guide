@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 export async function seed(knex) {
-  await knex('table_name').insert([
+  await knex('users').insert([
     {
       id: 'Auth0:12345',
       first_name: 'Test',
