@@ -1,4 +1,4 @@
-export interface climb {
+export interface Climb {
   id: number
   topo_ref: number
   type: string

@@ -1,8 +1,63 @@
 body {
-  position: absolute;
   top: 0;
   left: 0;
   margin: 0;
-  padding: 20px;
+  padding: 0;
   font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  width: 100%;
+}
+a {
+  text-decoration: none;
+}
+header {
+  display: flex;
+  width: 100%;
+  background: rgb(180, 128, 128);
+  margin-top: 0;
+  height: 100px;
+  align-content: center;
+  flex-wrap: wrap;
+  padding-left: 20px;
+}
+header h1 {
+  margin: 0;
+  text-decoration: none;
+  color: black;
+  font-size: 2rem;
+}
+
+.area-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.area-block {
+  display: flex;
+}
+
+.area-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: space-around;
+  width: 100%;
+  align-content: center;
+  height: 100%;
+}
+
+.area-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.area-img {
+  width: 20vw;
+}
+
+.topo {
+  height: 90vh;
 }
