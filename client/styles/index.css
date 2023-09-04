@@ -12,18 +12,15 @@ a {
 header {
   display: flex;
   width: 100%;
-  background: rgb(180, 128, 128);
+  background: rgb(185, 134, 154);
   margin-top: 0;
   height: 100px;
   align-content: center;
   flex-wrap: wrap;
   padding-left: 20px;
 }
-header h1 {
-  margin: 0;
-  text-decoration: none;
-  color: black;
-  font-size: 2rem;
+header img {
+  height: 85px;
 }
 
 .area-container {

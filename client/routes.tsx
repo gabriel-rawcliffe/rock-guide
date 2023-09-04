@@ -9,6 +9,7 @@ import Home from './components/Home'
 import Area from './components/Area'
 import Crag from './components/Crag'
 import Sector from './components/Sector'
+import Register from './components/Register'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ export const router = createBrowserRouter(
       <Route path=":area" element={<Area />} />
       <Route path="area/:crag" element={<Crag />} />
       <Route path="area/crag/:sector" element={<Sector />} />
+      <Route path="register" element={<Register />} />
     </Route>
   )
 )

@@ -1,3 +1,4 @@
+import { User } from '../../models/User.ts'
 import db from './connection.ts'
 
 export function getAreas() {
@@ -40,3 +41,7 @@ export function getClimbsBySector(sector: number) {
 }
 
 export function getClimbById(id: string) {}
+
+export function addUser(newUser: User) {
+  return db('users').insert(newUser).returning('*')
+}
