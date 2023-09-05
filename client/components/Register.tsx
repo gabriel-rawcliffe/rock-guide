@@ -1,11 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import { ReactEventHandler, useState } from 'react'
-import { addUser } from '../apis/apiClient'
+import { ReactEventHandler, useEffect, useState } from 'react'
+import { addUser, checkUser } from '../apis/apiClient'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
 
 export default function Register() {
   const navigate = useNavigate()
-
+  const { getAccessTokenSilently } = useAuth0()
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -13,7 +14,19 @@ export default function Register() {
     email: '',
   })
 
-  const { getAccessTokenSilently } = useAuth0()
+  // check if user exists using useState and useEffect
+  const [userExists, setUserExists] = useState(false)
+
+  useEffect(() => {
+    const userCheck = async () => {
+      const token = await getAccessTokenSilently()
+      const userCheck = await checkUser(token)
+      setUserExists(userCheck)
+    }
+    userCheck()
+  }, [])
+
+  console.log(userExists)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -28,58 +41,62 @@ export default function Register() {
     const token = await getAccessTokenSilently()
     await addUser(token, formData)
     return navigate('/')
-    // add submission function
   }
+  if (userExists) return navigate('/')
+
   return (
     <div>
       <h1>Registry information</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="first-name">First-name:</label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="last_name">Surname:</label>
-          <input
-            type="test"
-            id="last_name"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="user_name">Username:</label>
-          <input
-            type="text"
-            id="user_name"
-            name="user_name"
-            value={formData.user_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <button type="submit">Submit</button>
+        <Stack spacing={3}>
+          <FormControl>
+            <FormLabel htmlFor="first_name">First Name:</FormLabel>
+            <Input
+              type="text"
+              id="first_name"
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="last_name">Surname:</FormLabel>
+            <Input
+              type="text"
+              id="last_name"
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="user_name">Username:</FormLabel>
+            <Input
+              type="text"
+              id="user_name"
+              name="user_name"
+              value={formData.user_name}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="email">Email:</FormLabel>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </FormControl>
+          <Button type="submit" colorScheme="blue">
+            Submit
+          </Button>
+        </Stack>
       </form>
     </div>
   )

@@ -1,17 +1,11 @@
 import { Link } from 'react-router-dom'
 import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
 import { useAuth0 } from '@auth0/auth0-react'
+import UserMenu from './chakra/UserMenu'
+import { Box, Flex, Spacer } from '@chakra-ui/react'
 
 export default function Header() {
   const { logout, loginWithRedirect } = useAuth0()
-
-  const user = {
-    nickname: useAuth0().user?.nickname,
-  }
-
-  const handleSignOut = () => {
-    logout()
-  }
 
   const handleSignIn = () => {
     loginWithRedirect()
@@ -19,18 +13,27 @@ export default function Header() {
 
   return (
     <>
-      <header>
-        <Link to={'/'}>
-          <img src="client/public/images/CliffTop.png" alt="CliffTop logo" />
-        </Link>
-        <IfAuthenticated>
-          <button onClick={handleSignOut}>Sign out</button>
-          {user && <p>Signed in as: {user?.nickname}</p>}
-        </IfAuthenticated>
-        <IfNotAuthenticated>
-          <button onClick={handleSignIn}>Sign in</button>
-        </IfNotAuthenticated>
-      </header>
+      <Flex>
+        <header>
+          <Box>
+            <Link to={'/'}>
+              <img
+                src="client/public/images/CliffTop.png"
+                alt="CliffTop logo"
+              />
+            </Link>
+          </Box>
+          <Spacer />
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="flex-end"
+            padding="1rem"
+          >
+            <UserMenu />
+          </Box>
+        </header>
+      </Flex>
     </>
   )
 }

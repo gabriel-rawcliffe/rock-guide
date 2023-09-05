@@ -41,4 +41,28 @@ router.post('/register', checkJwt, async (req: JwtRequest, res) => {
   }
 })
 
+router.get(`/userData`, checkJwt, async (req: JwtRequest, res) => {
+  try {
+    const auth0Id = req.auth?.sub
+    const user = await db.getUserByAuth(auth0Id)
+    console.log(`User: ${user}`)
+    res.json(user)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(error.response.status || 500).json(error.response.body)
+  }
+})
+
+router.get(`/userCheck`, checkJwt, async (req: JwtRequest, res) => {
+  try {
+    const auth0Id = req.auth?.sub
+    const userCheck = await db.checkUserAuth(auth0Id)
+
+    res.json(userCheck)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(error.response.status || 500).json(error.response.body)
+  }
+})
+
 export default router

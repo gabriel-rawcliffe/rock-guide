@@ -1,3 +1,4 @@
+import { useRangeSlider } from '@chakra-ui/react'
 import { User } from '../../models/User.ts'
 import db from './connection.ts'
 
@@ -44,4 +45,12 @@ export function getClimbById(id: string) {}
 
 export function addUser(newUser: User) {
   return db('users').insert(newUser).returning('*')
+}
+
+export function getUserByAuth(auth0Id: string | undefined) {
+  return db('users').where('id', auth0Id).select()
+}
+export async function checkUserAuth(auth0Id: string | undefined) {
+  const userCheck = await db('users').where('id', auth0Id).first()
+  return !!userCheck
 }

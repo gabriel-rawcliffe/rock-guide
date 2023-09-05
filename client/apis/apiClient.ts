@@ -26,11 +26,27 @@ export async function getClimbs(sector: string | undefined) {
   return response.body
 }
 
-export async function addUser(token, userData) {
+export async function addUser(token: string, userData: User) {
   console.log(`NewUser data: ${userData.email}`)
   const response = await request
     .post('/api/v1/users/register')
     .set('Authorization', `Bearer ${token}`)
     .send(userData)
+  return response.body
+}
+
+export async function getUserDetails(token: string) {
+  const response = await request
+    .get('/api/v1/users/userData')
+    .set('Authorization', `Bearer ${token}`)
+  // console.log(`userdetails response: ${JSON.stringify(response.body)}`)
+  return response.body
+}
+
+export async function checkUser(token: string) {
+  const response = await request
+    .get('/api/v1/users/userCheck')
+    .set('Authorization', `Bearer ${token}`)
+  console.log(`userCheck: ${response.body}`)
   return response.body
 }
