@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-import { getCrags } from '../apis/apiClient'
-import CragList from './CragList'
-import { Crag } from '../../models/Crags'
+import { checkUser, getCrags } from '../../apis/apiClient'
+import CragList from '../CragList'
+import { Crag } from '../../../models/Crags'
 
 interface AreaCrag extends Crag {
   area_name: string

@@ -7,9 +7,9 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { User } from '../../../models/User'
+import { User } from '../../models/User'
 import { useContext } from 'react'
-import { userContext } from '../../context'
+import { userContext } from '../context'
 
 export default function UserMenu() {
   const { logout } = useAuth0()

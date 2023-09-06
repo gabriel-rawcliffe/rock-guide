@@ -50,3 +50,11 @@ export async function checkUser(token: string) {
   console.log(`userCheck: ${response.body}`)
   return response.body
 }
+
+export async function getUserTicklist(userId: string) {
+  const response = await request
+    .get(`/api/v1/users/ticklist/`)
+    .set('Authorization', `Bearer ${userId}`)
+
+  return response.body
+}

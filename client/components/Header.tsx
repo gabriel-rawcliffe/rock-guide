@@ -1,16 +1,9 @@
 import { Link } from 'react-router-dom'
-import { IfAuthenticated, IfNotAuthenticated } from './Authenticated'
-import { useAuth0 } from '@auth0/auth0-react'
-import UserMenu from './chakra/UserMenu'
+
+import UserMenu from './UserMenu'
 import { Box, Flex, Spacer } from '@chakra-ui/react'
 
 export default function Header() {
-  const { logout, loginWithRedirect } = useAuth0()
-
-  const handleSignIn = () => {
-    loginWithRedirect()
-  }
-
   return (
     <>
       <Flex>

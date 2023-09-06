@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-import { getClimbs } from '../apis/apiClient'
-import ClimbList from './ClimbList'
+import { getClimbs } from '../../apis/apiClient'
+import ClimbList from '../ClimbList'
 
 export default function Sector() {
   const { sector } = useParams()

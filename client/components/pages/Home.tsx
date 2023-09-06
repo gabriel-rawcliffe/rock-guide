@@ -1,4 +1,4 @@
-import AreaList from './AreaList'
+import AreaList from '../AreaList'
 
 export default function Home() {
   return (

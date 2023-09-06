@@ -6,17 +6,6 @@ import { User } from '../../models/User.ts'
 
 const router = express.Router()
 
-// router.get(`/`, async (req, res) => {
-//   try {
-//     const areas = await db.getAreas()
-
-//     res.json(areas)
-//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   } catch (error: any) {
-//     res.status(error.response.status || 500).json(error.response.body)
-//   }
-// })
-
 router.post('/register', checkJwt, async (req: JwtRequest, res) => {
   const details = req.body
   const auth0Id = req.auth?.sub
@@ -59,6 +48,18 @@ router.get(`/userCheck`, checkJwt, async (req: JwtRequest, res) => {
     const userCheck = await db.checkUserAuth(auth0Id)
 
     res.json(userCheck)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(error.response.status || 500).json(error.response.body)
+  }
+})
+
+router.get(`/Ticklist`, checkJwt, async (req: JwtRequest, res) => {
+  try {
+    const auth0Id = req.auth?.sub
+    const ticklist = await db.getUserTicklist(auth0Id)
+
+    res.json(ticklist)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(error.response.status || 500).json(error.response.body)

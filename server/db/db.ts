@@ -54,3 +54,10 @@ export async function checkUserAuth(auth0Id: string | undefined) {
   const userCheck = await db('users').where('id', auth0Id).first()
   return !!userCheck
 }
+export function getUserTicklist(auth0Id: string | undefined) {
+  return db('climbs')
+    .join('ticklist', 'ticklist.climb_id', 'climbs.id')
+    .join('users', 'ticklist.user_id', 'users.id')
+    .where('users.id', auth0Id)
+    .select('climbs.*')
+}

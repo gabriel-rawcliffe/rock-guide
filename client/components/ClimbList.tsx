@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/react'
 import { Climb } from '../../models/Climbs'
 
 import { dashedUrl, generateStarString } from '../helpers'
@@ -31,7 +32,11 @@ export default function ClimbList({ climbs }: { climbs: ClimbSector[] }) {
                   <h2>{`${climb.name} | ${climb.grade} | ${generateStarString(
                     climb.rating
                   )} | ${climb.type}`}</h2>
+                  <Button colorScheme="teal" size="xs">
+                    Add to Ticklist
+                  </Button>
                 </div>
+
                 {visibleClimb === climb ? (
                   <div>
                     <p>{climb.description}</p>

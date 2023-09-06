@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { ReactEventHandler, useEffect, useState } from 'react'
-import { addUser, checkUser } from '../apis/apiClient'
+import { addUser, checkUser } from '../../apis/apiClient'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react'
 
@@ -40,10 +40,12 @@ export default function Register() {
     e.preventDefault()
     const token = await getAccessTokenSilently()
     await addUser(token, formData)
-    return navigate('/')
+    return navigate('/Home/')
   }
-  if (userExists) return navigate('/')
-
+  // if (userExists) return navigate('/')
+  if (userExists) {
+    return <Navigate to="/" replace />
+  }
   return (
     <div>
       <h1>Registry information</h1>

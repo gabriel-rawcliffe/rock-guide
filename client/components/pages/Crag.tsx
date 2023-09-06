@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-import { getSectors } from '../apis/apiClient'
-import SectorList from './SectorList'
+import { getSectors } from '../../apis/apiClient'
+import SectorList from '../SectorList'
 
 export default function Crag() {
   const { crag } = useParams()

@@ -4,17 +4,19 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom'
 
-import App from './components/App'
-import Home from './components/Home'
-import Area from './components/Area'
-import Crag from './components/Crag'
-import Sector from './components/Sector'
-import Register from './components/Register'
+import App from './components/pages/App'
+import Home from './components/pages/Home'
+import Area from './components/pages/Area'
+import Crag from './components/pages/Crag'
+import Sector from './components/pages/Sector'
+import Register from './components/pages/Register'
+import Landing from './components/pages/Landing'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<Home />} />
+      <Route index element={<Landing />} />
+      <Route path="/home" element={<Home />} />
       <Route path=":area" element={<Area />} />
       <Route path="area/:crag" element={<Crag />} />
       <Route path="area/crag/:sector" element={<Sector />} />
