@@ -34,7 +34,7 @@ router.get(`/userData`, checkJwt, async (req: JwtRequest, res) => {
   try {
     const auth0Id = req.auth?.sub
     const user = await db.getUserByAuth(auth0Id)
-    console.log(`User: ${user}`)
+
     res.json(user)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -54,12 +54,44 @@ router.get(`/userCheck`, checkJwt, async (req: JwtRequest, res) => {
   }
 })
 
-router.get(`/Ticklist`, checkJwt, async (req: JwtRequest, res) => {
+router.get(`/ticklist`, checkJwt, async (req: JwtRequest, res) => {
+  console.log('ticklistRoute go')
   try {
     const auth0Id = req.auth?.sub
     const ticklist = await db.getUserTicklist(auth0Id)
 
     res.json(ticklist)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(error.response.status || 500).json(error.response.body)
+  }
+})
+
+router.post(`/ticklist/add`, checkJwt, async (req: JwtRequest, res) => {
+  try {
+    const auth0Id = req.auth?.sub
+    const climbId = req.body.climbId
+    console.log(`climbId: ${climbId}`)
+
+    const response = await db.addUserTicklist(auth0Id, climbId)
+
+    res.json(response)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(error.response.status || 500).json(error.response.body)
+  }
+})
+
+router.delete(`/ticklist/delete`, checkJwt, async (req: JwtRequest, res) => {
+  console.log('ticklistRoute go')
+  try {
+    const auth0Id = req.auth?.sub
+    const climbId = req.body.climbId
+    console.log(`climbId: ${climbId}`)
+
+    const response = await db.deleteUserTicklist(auth0Id, climbId)
+
+    res.json(response)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(error.response.status || 500).json(error.response.body)

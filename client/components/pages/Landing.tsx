@@ -37,19 +37,4 @@ export default function Landing() {
   if (userExists) {
     return <Navigate to="/Home/" replace />
   }
-  // if (isLoading)
-  //   return (
-  //     <ChakraProvider>
-  //       <Center>
-  //         <Spinner
-  //           margin="100px"
-  //           thickness="4px"
-  //           speed="0.65s"
-  //           emptyColor="gray.200"
-  //           color="blue.500"
-  //           size="xl"
-  //         />
-  //       </Center>
-  //     </ChakraProvider>
-  //   )
 }

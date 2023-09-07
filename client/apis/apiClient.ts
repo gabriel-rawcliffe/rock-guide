@@ -44,6 +44,7 @@ export async function getUserDetails(token: string) {
 }
 
 export async function checkUser(token: string) {
+  console.log(`chekUserapi function go userID: ${token}`)
   const response = await request
     .get('/api/v1/users/userCheck')
     .set('Authorization', `Bearer ${token}`)
@@ -51,10 +52,30 @@ export async function checkUser(token: string) {
   return response.body
 }
 
-export async function getUserTicklist(userId: string) {
+export async function getUserTicklist(token: string) {
+  console.log(`ticklistapi function go userID: ${token}`)
   const response = await request
-    .get(`/api/v1/users/ticklist/`)
-    .set('Authorization', `Bearer ${userId}`)
+    .get(`/api/v1/users/ticklist`)
+    .set('Authorization', `Bearer ${token}`)
 
+  console.log(`Ticklist response: ${JSON.stringify(response.body)}`)
+  return response.body
+}
+
+export async function addClimbToTicklist(climbId: number, token: string) {
+  const response = await request
+    .post(`/api/v1/users/ticklist/add`)
+    .set('Authorization', `Bearer ${token}`)
+    .send({ climbId })
+
+  return response.body
+}
+
+export async function deleteClimbFromTicklist(climbId: number, token: string) {
+  const response = await request
+
+    .delete(`/api/v1/users/ticklist/delete`)
+    .set('Authorization', `Bearer ${token}`)
+    .send({ climbId })
   return response.body
 }

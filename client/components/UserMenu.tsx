@@ -10,6 +10,7 @@ import {
 import { User } from '../../models/User'
 import { useContext } from 'react'
 import { userContext } from '../context'
+import { Link } from 'react-router-dom'
 
 export default function UserMenu() {
   const { logout } = useAuth0()
@@ -25,7 +26,9 @@ export default function UserMenu() {
       </MenuButton>
       <MenuList>
         <MenuGroup title="Profile">
-          <MenuItem>Ticklist</MenuItem>
+          <MenuItem>
+            <Link to={'/user/ticklist'}>Ticklist</Link>
+          </MenuItem>
           <MenuItem>Hitlist </MenuItem>
           <MenuItem>
             <button onClick={handleSignOut}>Sign out</button>

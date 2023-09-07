@@ -11,6 +11,7 @@ import Crag from './components/pages/Crag'
 import Sector from './components/pages/Sector'
 import Register from './components/pages/Register'
 import Landing from './components/pages/Landing'
+import Ticklist from './components/pages/Ticklist'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ export const router = createBrowserRouter(
       <Route path="area/:crag" element={<Crag />} />
       <Route path="area/crag/:sector" element={<Sector />} />
       <Route path="register" element={<Register />} />
+      <Route path="user/ticklist" element={<Ticklist />} />
     </Route>
   )
 )

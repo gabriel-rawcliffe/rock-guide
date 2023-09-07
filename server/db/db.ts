@@ -61,3 +61,24 @@ export function getUserTicklist(auth0Id: string | undefined) {
     .where('users.id', auth0Id)
     .select('climbs.*')
 }
+
+export function addUserTicklist(userId: string, climbId: number) {
+  return db('ticklist')
+    .insert({
+      user_id: userId,
+      climb_id: climbId,
+    })
+
+    .returning('*')
+}
+
+export function deleteUserTicklist(userId: string, climbId: number) {
+  return db('ticklist')
+    .delete()
+    .where({
+      user_id: userId,
+      climb_id: climbId,
+    })
+
+    .returning('*')
+}

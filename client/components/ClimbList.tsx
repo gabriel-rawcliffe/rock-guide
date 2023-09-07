@@ -3,6 +3,8 @@ import { Climb } from '../../models/Climbs'
 
 import { dashedUrl, generateStarString } from '../helpers'
 import { useState } from 'react'
+import { addClimbToTicklist } from '../apis/apiClient'
+import { useAuth0 } from '@auth0/auth0-react'
 
 interface ClimbSector extends Climb {
   sector_name: string
@@ -15,6 +17,14 @@ export default function ClimbList({ climbs }: { climbs: ClimbSector[] }) {
   const handleClick = (climb: ClimbSector) => {
     visibleClimb === climb ? setVisibleClimb({}) : setVisibleClimb(climb)
   }
+  const { getAccessTokenSilently } = useAuth0()
+  const handleTicklistAdd = (climb: ClimbSector) => {
+    async function modifyTicklistdb() {
+      const token = await getAccessTokenSilently()
+      addClimbToTicklist(climb.id, token)
+    }
+    modifyTicklistdb()
+  }
 
   return (
     <>
@@ -23,19 +33,19 @@ export default function ClimbList({ climbs }: { climbs: ClimbSector[] }) {
           {climbs?.map((climb: ClimbSector) => {
             const url = `${dashedUrl(climb.name, climb.id)}`
             return (
-              <li
-                onClick={() => handleClick(climb)}
-                className="climb-block"
-                key={climb.id}
-              >
-                <div>
+              <li className="climb-block" key={climb.id}>
+                <div onClick={() => handleClick(climb)}>
                   <h2>{`${climb.name} | ${climb.grade} | ${generateStarString(
                     climb.rating
                   )} | ${climb.type}`}</h2>
-                  <Button colorScheme="teal" size="xs">
-                    Add to Ticklist
-                  </Button>
                 </div>
+                <Button
+                  onClick={() => handleTicklistAdd(climb)}
+                  colorScheme="teal"
+                  size="xs"
+                >
+                  Add to Ticklist
+                </Button>
 
                 {visibleClimb === climb ? (
                   <div>
