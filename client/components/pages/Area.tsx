@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { checkUser, getCrags } from '../../apis/apiClient'
 import CragList from '../CragList'
 import { Crag } from '../../../models/Crags'
+import { Heading, Center, Text } from '@chakra-ui/react'
 
 interface AreaCrag extends Crag {
   area_name: string
@@ -31,10 +32,18 @@ export default function Crags() {
     )
   return (
     <>
-      <div className="centred">
-        <h1>{crags[0]?.area_name}</h1>
-        <h3>{crags[0]?.area_description}</h3>
-      </div>
+      <Center>
+        <Heading padding={2}>{crags[0]?.area_name}</Heading>
+      </Center>
+      <Text padding={3} paddingBottom={10}>
+        {crags[0]?.area_description}
+      </Text>
+      <Center>
+        <Heading size="md" padding={3} paddingBottom={10}>
+          {`Crags in ${crags[0]?.area_name}`}
+        </Heading>
+      </Center>
+
       <CragList crags={crags} />
     </>
   )

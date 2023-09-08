@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import { ReactEventHandler, useEffect, useState } from 'react'
-import { addUser, checkUser } from '../../apis/apiClient'
+import { ReactEventHandler, useContext, useEffect, useState } from 'react'
+import { addUser, checkUser, deleteUser, editUser } from '../../apis/apiClient'
 import { Navigate, useNavigate } from 'react-router-dom'
 import {
   Box,
@@ -14,31 +14,23 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { useQueryClient } from '@tanstack/react-query'
+import { userContext } from '../../context'
+import { User } from '../../../models/User'
 
-export default function Register() {
+export default function EditUser() {
+  const { logout } = useAuth0()
+  const userArr = useContext(userContext)
+  const user = userArr[0]
   const navigate = useNavigate()
   const { getAccessTokenSilently } = useAuth0()
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    user_name: '',
-    email: '',
+    first_name: user.first_name,
+    last_name: user.last_name,
+    user_name: user.user_name,
+    email: user.email,
   })
 
-  // check if user exists using useState and useEffect
-  const [userExists, setUserExists] = useState(false)
   const queryClient = useQueryClient()
-
-  useEffect(() => {
-    const userCheck = async () => {
-      const token = await getAccessTokenSilently()
-      const userCheck = await checkUser(token)
-      setUserExists(userCheck)
-    }
-    userCheck()
-  }, [])
-
-  console.log(userExists)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -51,20 +43,26 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const token = await getAccessTokenSilently()
-    await addUser(token, formData)
+    await editUser(token, formData)
 
     queryClient.invalidateQueries(['user'])
 
     return navigate('/Home/')
   }
-  // if (userExists) return navigate('/')
-  if (userExists) {
-    return <Navigate to="/" replace />
+
+  const handleDeleteUser = async () => {
+    const token = await getAccessTokenSilently()
+    await deleteUser(token)
+
+    queryClient.invalidateQueries(['user'])
+    logout()
+    return navigate('/')
   }
+
   return (
     <Box>
       <Center>
-        <Heading size="lg">Registry information</Heading>
+        <Heading size="lg">User Details</Heading>
       </Center>
       <Flex flexDir="column">
         <Center>
@@ -120,6 +118,14 @@ export default function Register() {
                 </Button>
               </Stack>
             </form>
+            <Button
+              onClick={handleDeleteUser}
+              w="20%"
+              background="#a83832"
+              color="white"
+            >
+              Delete
+            </Button>
           </Box>
         </Center>
       </Flex>

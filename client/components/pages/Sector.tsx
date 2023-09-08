@@ -31,7 +31,7 @@ export default function Sector() {
         <h3>{climbs[0]?.sector_description}</h3>
         <img
           className="topo"
-          src={`/client/public${climbs[0]?.sector_topo}`}
+          src={`${climbs[0]?.sector_topo}`}
           alt={`${climbs[0]?.sector_name} topo`}
         />
       </div>

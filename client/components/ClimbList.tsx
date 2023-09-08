@@ -1,10 +1,11 @@
-import { Button } from '@chakra-ui/react'
+import { Alert, AlertIcon, Box, Button } from '@chakra-ui/react'
 import { Climb } from '../../models/Climbs'
 
 import { dashedUrl, generateStarString } from '../helpers'
 import { useState } from 'react'
 import { addClimbToTicklist } from '../apis/apiClient'
 import { useAuth0 } from '@auth0/auth0-react'
+import { response } from 'express'
 
 interface ClimbSector extends Climb {
   sector_name: string
@@ -13,17 +14,26 @@ interface ClimbSector extends Climb {
 
 export default function ClimbList({ climbs }: { climbs: ClimbSector[] }) {
   const [visibleClimb, setVisibleClimb] = useState({})
-
+  const [alert, setAlert] = useState(false)
   const handleClick = (climb: ClimbSector) => {
     visibleClimb === climb ? setVisibleClimb({}) : setVisibleClimb(climb)
   }
   const { getAccessTokenSilently } = useAuth0()
-  const handleTicklistAdd = (climb: ClimbSector) => {
+  const handleTicklistAdd = async (climb: ClimbSector) => {
     async function modifyTicklistdb() {
       const token = await getAccessTokenSilently()
-      addClimbToTicklist(climb.id, token)
+      const response = await addClimbToTicklist(climb.id, token)
+      console.log(`Edit ticklist component response: ${response}`)
+      return response
     }
-    modifyTicklistdb()
+
+    const modifyTicklist = await modifyTicklistdb()
+    if (modifyTicklist == 204) {
+      setAlert(true)
+      setTimeout(() => {
+        setAlert(false)
+      }, 2000)
+    }
   }
 
   return (
@@ -46,6 +56,14 @@ export default function ClimbList({ climbs }: { climbs: ClimbSector[] }) {
                 >
                   Add to Ticklist
                 </Button>
+                {alert && (
+                  <Box position="fixed" bottom="0" right="0">
+                    <Alert status="success">
+                      <AlertIcon />
+                      Ticklist updated
+                    </Alert>
+                  </Box>
+                )}
 
                 {visibleClimb === climb ? (
                   <div>

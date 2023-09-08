@@ -12,6 +12,7 @@ export default function App() {
   const renderHeader = !['/', '/register/'].includes(location.pathname)
   const [userDetails, setUserDetails] = useState([
     {
+      id: '',
       first_name: '',
       last_name: '',
       user_name: '',
@@ -25,12 +26,14 @@ export default function App() {
     const userCheck = async () => {
       const token = await getAccessTokenSilently()
       const userCheck = await checkUser(token)
+
       if (userCheck) {
         const userData = await getUserDetails(token)
         setUserDetails(userData)
       }
     }
     userCheck()
+    return userDetails
   })
 
   return (

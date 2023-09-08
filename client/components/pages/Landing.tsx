@@ -26,7 +26,7 @@ export default function Landing() {
             <Image
               margin="50px"
               w="250px"
-              src="client/public/images/CliffTop.png"
+              src="/images/CliffTop.png"
               alt="CliffTop logo"
             />
             <Login />

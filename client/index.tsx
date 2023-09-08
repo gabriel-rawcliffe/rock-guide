@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <Auth0Provider
       domain="mako-gabriel.au.auth0.com"
       clientId="g6exbkR3ShJPIm2yWPVARoIMTUjDfIqu"
-      redirectUri="http://localhost:5173/register/"
+      redirectUri={`${window.location.origin}/register/`}
       audience="https://CliffTop/api"
     >
       <QueryClientProvider client={queryClient}>

@@ -62,7 +62,7 @@ export function getUserTicklist(auth0Id: string | undefined) {
     .select('climbs.*')
 }
 
-export function addUserTicklist(userId: string, climbId: number) {
+export function addUserTicklist(userId: string | undefined, climbId: number) {
   return db('ticklist')
     .insert({
       user_id: userId,
@@ -72,7 +72,10 @@ export function addUserTicklist(userId: string, climbId: number) {
     .returning('*')
 }
 
-export function deleteUserTicklist(userId: string, climbId: number) {
+export function deleteUserTicklist(
+  userId: string | undefined,
+  climbId: number
+) {
   return db('ticklist')
     .delete()
     .where({
@@ -81,4 +84,37 @@ export function deleteUserTicklist(userId: string, climbId: number) {
     })
 
     .returning('*')
+}
+
+export function editUser(data: User) {
+  return db('users').where('id', data.id).update({
+    first_name: data.first_name,
+    last_name: data.last_name,
+    user_name: data.user_name,
+    email: data.email,
+  })
+}
+
+export async function deleteProfile(userId: string | undefined) {
+  console.log(`at db`)
+  try {
+    // Start a transaction
+    await db.transaction(async (trx) => {
+      // Use Promise.all to delete from 'hitlist' and 'ticklist' simultaneously
+      await Promise.all([
+        trx('hitlist').delete().where({ user_id: userId }),
+        trx('ticklist').delete().where({ user_id: userId }),
+      ])
+
+      // Delete from 'users' table
+      await trx('users').delete().where({ id: userId })
+    })
+
+    // Transaction succeeded, all deletions were successful
+    return true
+  } catch (error) {
+    // Transaction failed, handle the error
+
+    return error
+  }
 }

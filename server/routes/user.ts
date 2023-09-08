@@ -73,9 +73,9 @@ router.post(`/ticklist/add`, checkJwt, async (req: JwtRequest, res) => {
     const climbId = req.body.climbId
     console.log(`climbId: ${climbId}`)
 
-    const response = await db.addUserTicklist(auth0Id, climbId)
+    await db.addUserTicklist(auth0Id, climbId)
 
-    res.json(response)
+    res.sendStatus(204)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(error.response.status || 500).json(error.response.body)
@@ -89,12 +89,52 @@ router.delete(`/ticklist/delete`, checkJwt, async (req: JwtRequest, res) => {
     const climbId = req.body.climbId
     console.log(`climbId: ${climbId}`)
 
-    const response = await db.deleteUserTicklist(auth0Id, climbId)
+    await db.deleteUserTicklist(auth0Id, climbId)
 
-    res.json(response)
+    res.sendStatus(204)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(error.response.status || 500).json(error.response.body)
+  }
+})
+
+router.patch('/edit', checkJwt, async (req: JwtRequest, res) => {
+  const details = req.body
+  const auth0Id = req.auth?.sub
+  const editedUser: User = { ...details, id: auth0Id }
+
+  if (!details) {
+    console.error('No user details')
+    console.error(`req: ${req.body.user_name}`)
+    return res.status(400).send('Bad request')
+  }
+  if (!auth0Id) {
+    console.error('No auth0Id')
+    return res.status(401).send('Unauthorized')
+  }
+  try {
+    await db.editUser(editedUser)
+
+    res.sendStatus(204)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong adding user details')
+  }
+})
+
+router.delete('/profile', checkJwt, async (req: JwtRequest, res) => {
+  const auth0Id = req.auth?.sub
+  if (!auth0Id) {
+    console.error('No auth0Id')
+    return res.status(401).send('Unauthorized')
+  }
+
+  try {
+    await db.deleteProfile(auth0Id)
+    res.sendStatus(204)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Something went wrong deleting user details')
   }
 })
 

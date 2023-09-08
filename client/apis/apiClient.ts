@@ -27,7 +27,6 @@ export async function getClimbs(sector: string | undefined) {
 }
 
 export async function addUser(token: string, userData: User) {
-  console.log(`NewUser data: ${userData.email}`)
   const response = await request
     .post('/api/v1/users/register')
     .set('Authorization', `Bearer ${token}`)
@@ -39,26 +38,23 @@ export async function getUserDetails(token: string) {
   const response = await request
     .get('/api/v1/users/userData')
     .set('Authorization', `Bearer ${token}`)
-  // console.log(`userdetails response: ${JSON.stringify(response.body)}`)
+
   return response.body
 }
 
 export async function checkUser(token: string) {
-  console.log(`chekUserapi function go userID: ${token}`)
   const response = await request
     .get('/api/v1/users/userCheck')
     .set('Authorization', `Bearer ${token}`)
-  console.log(`userCheck: ${response.body}`)
+
   return response.body
 }
 
 export async function getUserTicklist(token: string) {
-  console.log(`ticklistapi function go userID: ${token}`)
   const response = await request
     .get(`/api/v1/users/ticklist`)
     .set('Authorization', `Bearer ${token}`)
 
-  console.log(`Ticklist response: ${JSON.stringify(response.body)}`)
   return response.body
 }
 
@@ -68,7 +64,7 @@ export async function addClimbToTicklist(climbId: number, token: string) {
     .set('Authorization', `Bearer ${token}`)
     .send({ climbId })
 
-  return response.body
+  return response.statusCode
 }
 
 export async function deleteClimbFromTicklist(climbId: number, token: string) {
@@ -77,5 +73,22 @@ export async function deleteClimbFromTicklist(climbId: number, token: string) {
     .delete(`/api/v1/users/ticklist/delete`)
     .set('Authorization', `Bearer ${token}`)
     .send({ climbId })
-  return response.body
+  return response.statusCode
+}
+
+export async function editUser(token: string, userData: User) {
+  const response = await request
+    .patch('/api/v1/users/edit')
+    .set('Authorization', `Bearer ${token}`)
+    .send(userData)
+  return response.statusCode
+}
+
+export async function deleteUser(token: string) {
+  const response = await request
+
+    .delete(`/api/v1/users/profile`)
+    .set('Authorization', `Bearer ${token}`)
+
+  return response.statusCode
 }
