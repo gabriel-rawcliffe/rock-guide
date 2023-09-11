@@ -62,7 +62,9 @@ export default function EditUser() {
   return (
     <Box>
       <Center>
-        <Heading size="lg">User Details</Heading>
+        <Heading as="h1" size="lg">
+          User Details
+        </Heading>
       </Center>
       <Flex flexDir="column">
         <Center>
